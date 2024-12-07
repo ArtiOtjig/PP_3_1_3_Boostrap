@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New User</title>
+    <title>Edit User</title>
 </head>
 <body>
-
-<form method="POST" th:action="@{/users}" th:object="${user}">
+<form method="POST" th:action="@{/admin/edit}" th:object="${user}">
+    <input name="id" th:field="*{id}" th:value="${user.getId()}" hidden="hidden">
     <label for="name">Enter name:</label>
     <input type="text" th:field="*{name}" id="name">
     <div style="color: red" th:if = "${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
@@ -14,6 +14,10 @@
     <label for="surname">Enter surname:</label>
     <input type="text" th:field="*{surname}" id="surname">
     <div style="color: red" th:if = "${#fields.hasErrors('surname')}" th:errors="*{surname}">Surname error</div>
+    <br>
+    <label for="password">Enter password:</label>
+    <input type="password" th:field="*{password}" id="password">
+    <div style="color: red" th:if = "${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br>
     <label for="phone">Enter phone:</label>
     <input type="text" th:field="*{phoneNumber}" id="phone">
@@ -23,9 +27,12 @@
     <input type="text" th:field="*{email}" id="email">
     <div style="color: red" th:if = "${#fields.hasErrors('email')}" th:errors="*{email}">E-mail error</div>
     <br>
-    <input type="submit" value="Create">
+    <input type="submit" value="Update">
 
 </form>
-
+<br/>
+<form method="get" th:action="@{/logout}">
+    <input type="submit" value="Logout">
+</form>
 </body>
 </html>

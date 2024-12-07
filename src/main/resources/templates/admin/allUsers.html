@@ -27,12 +27,12 @@
         <td th:text="${user.getPhoneNumber()}"></td>
         <td th:text="${user.getEmail()}"></td>
         <td>
-            <form method="get" th:action="@{/users/edit}">
+            <form method="get" th:action="@{/admin/edit}">
                 <button type="submit" th:name="id" th:value="${user.id}">Edit</button>
             </form>
         </td>
         <td>
-            <form method="post" th:action="@{/users/delete}">
+            <form method="post" th:action="@{/admin/delete}">
                 <button type="submit" th:name="id" th:value="${user.id}">Delete</button>
             </form>
         </td>
@@ -40,8 +40,12 @@
     </tbody>
 </table>
 <hr>
-<form method="get" th:action="@{/users/new}">
+<form method="get" th:action="@{/admin/new}">
     <button type="submit">Create new user</button>
+</form>
+<br/>
+<form method="get" th:action="@{/logout}">
+    <input type="submit" value="Logout">
 </form>
 
 </body>

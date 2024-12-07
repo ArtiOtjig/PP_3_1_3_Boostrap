@@ -4,7 +4,14 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
+<h1>User page</h1>
+
+    <p>ID: <span th:text="${user.id}"/></p>
+    <p>Name: <span th:text="${user.name}"/></p>
+    <p>Surname: <span th:text="${user.surname}"/></p>
+    <p>Phone: <span th:text="${user.phoneNumber}"/></p>
+    <p>E-Mail: <span th:text="${user.email}"/></p>
+
 <br/>
 <form method="get" th:action="@{/logout}">
     <input type="submit" value="Logout">
