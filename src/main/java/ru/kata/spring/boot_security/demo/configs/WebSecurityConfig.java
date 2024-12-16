@@ -12,23 +12,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.kata.spring.boot_security.demo.security.LoginSuccessHandler;
+import ru.kata.spring.boot_security.demo.services.MyUserDetailService;
 
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsService userDetailsService;
+    private final MyUserDetailService myUserDetailService;
+    private final LoginSuccessHandler loginSuccessHandler;
 
-    @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public WebSecurityConfig(MyUserDetailService myUserDetailService, LoginSuccessHandler loginSuccessHandler) {
+        this.myUserDetailService = myUserDetailService;
+        this.loginSuccessHandler = loginSuccessHandler;
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
+        http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/login").anonymous()
@@ -36,12 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .successHandler(new LoginSuccessHandler());
+                .loginPage("/login")
+                .successHandler(loginSuccessHandler);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(myUserDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
